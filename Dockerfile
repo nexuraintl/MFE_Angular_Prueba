@@ -19,7 +19,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copiar los archivos construidos desde la etapa anterior
-COPY --from=build /app/dist/angular-mfe/browser /usr/share/nginx/html
+COPY --from=build /app/dist/angular-microfrontend-app/browser /usr/share/nginx/html
 
 # Copiar configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
