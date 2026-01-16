@@ -163,7 +163,9 @@ export class HelloWorldComponent implements OnInit {
 
     this.http.post<{ message: string }>(
       this.apiUrl,
-      {}, // body vacío
+       {
+      "message": "Test desde Postman para Servicio A"
+      }, // body vacío
       { headers }
     ).subscribe({
       next: response => {
@@ -184,3 +186,4 @@ export class HelloWorldComponent implements OnInit {
     this.counter--;
   }
 }
+
