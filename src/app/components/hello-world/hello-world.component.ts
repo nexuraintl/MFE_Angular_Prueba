@@ -147,7 +147,7 @@ export class HelloWorldComponent implements OnInit {
   loadTime = new Date();
 
   private readonly apiUrl =
-    'https://apig-pre-qa-functions-new-r2q3xgg.uc.gateway.dev/v1/special/task';
+      'https://concept-a1.nexura.com.co/apig/api/v1/special/task';
 
   constructor(private http: HttpClient) {}
 
