@@ -142,6 +142,7 @@ export class HelloWorldComponent implements OnInit {
 
   title = '¡Hola Mundo!';
   message = 'Consultando servicio...';
+  token = 'eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk1NDRkMGZmMDU5MGYwMjUzMDE2NDNmMzI3NWJmNjg3NzY3NjU4MjIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTA1NDU2ODU1NTc5MTkzNDY4MjY4IiwiaGQiOiJuZXh1cmEuY29tIiwiZW1haWwiOiJzdmFsZW56dWVsYUBuZXh1cmEuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJ0STVKcTZaMFREbnJXS1BXM3BPSU1BIiwibmJmIjoxNzY4ODQyNzM4LCJpYXQiOjE3Njg4NDMwMzgsImV4cCI6MTc2ODg0NjYzOCwianRpIjoiYjI5NWViNDFmYjM0ZGUxZDRmNDAzMzI0NWM1OTRmMDdhMWU3YWIzNSJ9.aGT7zXYGJXaKM6j-8-D4HY0pKWLdznnwlJx5UgTPPdNr4mJs-iT7aS7YnuswD2kvei60_foF4BuoOCuWVs5gj1SGvfHxS627HmYmMaeBZTdXzav3sm1-_lnsAk7xLrL9lroRf3gJjEusBJlV4FKSs5sFHhyaNlqyx0H4XNikQkzZ_10MrQjpgY4jilxDNNRECtiFZbSLkVlXCLiEtP8WxQFHEodr9YlwSymZOz6daLLDrBk5YLIJU7QAqvrTWobVJVG08dPQyoJQunDw4qYxFzv66WyRdXQSKaGRTF5hUt3T3RSd4uBaVHarzF-PoyA3P-kpJJMj1BmQORsSur3igw'
   counter = 0;
   loadTime = new Date();
 
@@ -157,25 +158,25 @@ export class HelloWorldComponent implements OnInit {
   private loadMessageFromApi(): void {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      //Reemplaza este token por el real
-      Authorization: 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk1NDRkMGZmMDU5MGYwMjUzMDE2NDNmMzI3NWJmNjg3NzY3NjU4MjIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTA1NDU2ODU1NTc5MTkzNDY4MjY4IiwiaGQiOiJuZXh1cmEuY29tIiwiZW1haWwiOiJzdmFsZW56dWVsYUBuZXh1cmEuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJ0STVKcTZaMFREbnJXS1BXM3BPSU1BIiwibmJmIjoxNzY4ODQyNzM4LCJpYXQiOjE3Njg4NDMwMzgsImV4cCI6MTc2ODg0NjYzOCwianRpIjoiYjI5NWViNDFmYjM0ZGUxZDRmNDAzMzI0NWM1OTRmMDdhMWU3YWIzNSJ9.aGT7zXYGJXaKM6j-8-D4HY0pKWLdznnwlJx5UgTPPdNr4mJs-iT7aS7YnuswD2kvei60_foF4BuoOCuWVs5gj1SGvfHxS627HmYmMaeBZTdXzav3sm1-_lnsAk7xLrL9lroRf3gJjEusBJlV4FKSs5sFHhyaNlqyx0H4XNikQkzZ_10MrQjpgY4jilxDNNRECtiFZbSLkVlXCLiEtP8WxQFHEodr9YlwSymZOz6daLLDrBk5YLIJU7QAqvrTWobVJVG08dPQyoJQunDw4qYxFzv66WyRdXQSKaGRTF5hUt3T3RSd4uBaVHarzF-PoyA3P-kpJJMj1BmQORsSur3igw'
+      'Authorization': `Bearer ${this.token}`  
     });
 
-    this.http.post<{ message: string }>(
+    this.http.post<{ result: string, status:string}>(
       this.apiUrl,
-       {
+      {
       "message": "Test desde Postman para Servicio A"
       }, // body vacío
       { headers }
     ).subscribe({
       next: response => {
-        this.message = response.message;
+        this.message = response.result;
       },
       error: error => {
         console.error('Error en el POST', error);
         this.message = 'Error al consultar el servicio';
       }
     });
+    
   }
 
   increment(): void {
@@ -186,4 +187,3 @@ export class HelloWorldComponent implements OnInit {
     this.counter--;
   }
 }
-
