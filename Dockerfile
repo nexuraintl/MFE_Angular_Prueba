@@ -1,32 +1,18 @@
-# Etapa 1: Construcción de la aplicación
-FROM node:18-alpine AS build
+# Dockerfile - Microfrontend Angular (BUILD ONLY)
 
+FROM node:18-alpine
+
+# Directorio de trabajo
 WORKDIR /app
 
-# Copiar package.json y package-lock.json
+# Copiar dependencias
 COPY package*.json ./
 
-# Instalar dependencias (incluyendo devDependencies)
-RUN npm install
+# Instalar dependencias de forma reproducible
+RUN npm ci
 
-# Copiar el código fuente
+# Copiar código fuente
 COPY . .
 
-# Construir la aplicación para producción
+# Build de Angular en modo producción
 RUN npm run build
-
-# Etapa 2: Servidor web con Nginx
-FROM nginx:alpine
-
-# Copiar los archivos construidos desde la etapa anterior
-COPY --from=build /app/dist/angular-microfrontend-app//browser /usr/share/nginx/html
-
-# Copiar configuración personalizada de Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Exponer puerto 80
-EXPOSE 8080
-
-# Comando para iniciar Nginx
-
-CMD ["nginx", "-g", "daemon off;"]
