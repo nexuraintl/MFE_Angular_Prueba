@@ -1,18 +1,30 @@
-# Dockerfile - Microfrontend Angular (BUILD ONLY)
+# =========================
+# 1️⃣ Build Angular
+# =========================
+FROM node:20-alpine AS build
 
-FROM node:18-alpine
-
-# Directorio de trabajo
 WORKDIR /app
 
-# Copiar dependencias
+# Dependencias
 COPY package*.json ./
-
-# Instalar dependencias de forma reproducible
 RUN npm ci
 
-# Copiar código fuente
+# Código fuente
 COPY . .
 
-# Build de Angular en modo producción
-RUN npm run build
+# 🔑 CLAVE: build con rutas RELATIVAS
+RUN npm run build -- \
+  --configuration production \
+  --base-href ./ \
+  --deploy-url ./
+
+# =========================
+# 2️⃣ Output (artefactos)
+# =========================
+# Esta imagen solo existe para copiar los archivos
+FROM alpine:3.19 AS export
+
+WORKDIR /dist
+COPY --from=build /app/dist/angular-microfrontend-app/browser .
+
+# No ENTRYPOINT, no CMD
